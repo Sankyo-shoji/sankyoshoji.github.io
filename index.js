@@ -59,7 +59,7 @@ function subForm() {
         unit[0] = "式";
     }
     else if($('input[name="unit"]:checked').val()== 4){
-        unit[0] = $('input[name="unit_text"]').val();
+        unit[0] = "その他";
     }
 
     //納期について
@@ -68,6 +68,9 @@ function subForm() {
     }
     else if($('input[name="deadline"]:checked').val()== 1){
         date[0] = $('input[name="deadline_text"]').val();
+    }
+    else if($('input[name="deadline"]:checked').val()== 1){
+        date[0] = $('input[name="deadline_text"]').val() + "までに";
     }
     
     //画像について
@@ -109,7 +112,7 @@ function subForm() {
             unit[j] = "式";
         }
         else if(unit_buff[j] == 4){
-            unit[j] = clone_element[j].querySelector("#unit_text").value;
+            unit[j] = "その他";
         }
     
         //納期について
@@ -117,7 +120,10 @@ function subForm() {
             date[j] = "次回訪問日（10日以内）";
         }
         else if(date_buff[j] == 1){
-            date[j] = clone_element[j].querySelector("#deadline_text").value ;
+            date[j] = clone_element[j].querySelector("#deadline_text").value;
+        }
+        else if(date_buff[j] == 2){
+            date[j] = clone_element[j].querySelector("#deadline_text").value + "までに";
         }
 
         //画像について
