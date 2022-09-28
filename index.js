@@ -74,7 +74,7 @@ function subForm() {
     if($('input[name="file"]:checked').val()== 0){
         file[0] = "なし";
     }
-    else if($('input[name="file"]:checked').val()== 1){
+    else{
         file[0] = "あり";
     }
     
