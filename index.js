@@ -136,7 +136,7 @@ function subForm() {
     }
 
     document.getElementById(`sub`).remove();
-    document.getElementById(`add`).remove();
+    // document.getElementById(`add`).remove();
     let doPostMessage = document.getElementById('dopost');
     doPostMessage.innerHTML = '送信中です';
     
@@ -196,10 +196,10 @@ function addForm() {
 
     //clone_element[j].querySelector("#sub").remove();
     document.getElementById(`sub`).remove();
-    document.getElementById(`add`).remove();
+    // document.getElementById(`add`).remove();
 
     // 商品 3 で追加の注文ボタンを消す
-    if(i == 2) document.getElementById(`add`).remove();
+    // if(i == 2) document.getElementById(`add`).remove();
 
     //clone_element[i].querySelector("#num0").onclick = `date_flg0_${i}(this.checked);`
 
