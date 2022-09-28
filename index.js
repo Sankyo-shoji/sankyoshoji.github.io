@@ -69,7 +69,7 @@ function subForm() {
     else if($('input[name="deadline"]:checked').val()== 1){
         date[0] = $('input[name="deadline_text"]').val();
     }
-    else if($('input[name="deadline"]:checked').val()== 1){
+    else if($('input[name="deadline"]:checked').val()== 2){
         date[0] = $('input[name="deadline_text"]').val() + "までに";
     }
     
@@ -146,8 +146,7 @@ function subForm() {
     let doPostMessage = document.getElementById('dopost');
     doPostMessage.innerHTML = '送信中です';
     
-    // console.log(file);
-    // console.log(clone_elemen[0].querySelector('input[name="file"]:checked'));
+    console.log(date);
     for(let k=0; k<i; k++){
         msg = `【注文内容】\n注文日時：${Year}年${Month}月${Date1}日${Hour}時${Min}分\n 商品名：${item_name[k]}\n 個数：${num[k]}\n 単位：${unit[k]}\n 納期：${date[k]}\n 画像：${file[k]}\n 備考：${note[k]}`;
 
