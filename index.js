@@ -43,7 +43,6 @@ function subForm() {
     else if($('input[name="item_number"]:checked').val()== 1){
         num[0] = "1";
     }
-    console.log(num[0]);
 
     //単位について
     if($('input[name="unit"]:checked').val()== 0){
@@ -67,10 +66,10 @@ function subForm() {
         date[0] = "次回訪問日（10日以内）";
     }
     else if($('input[name="deadline"]:checked').val()== 1){
-        date[0] = $('input[name="deadline_text"]').val();
+        date[0] = document.getElementById("deadline_text_0").value;
     }
     else if($('input[name="deadline"]:checked').val()== 2){
-        date[0] = $('input[name="deadline_text"]').val() + "までに";
+        date[0] = document.getElementById("deadline_text_1").value + "までに";
     }
     
     //画像について
