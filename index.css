@@ -20,6 +20,10 @@ input {
     border-left: none;
 }
 
+.caution {
+    font-size: 5px;
+}
+
 .required {
     color: red;
 }
