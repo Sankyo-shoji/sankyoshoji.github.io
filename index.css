@@ -20,6 +20,12 @@ input {
     border-left: none;
 }
 
+<<<<<<< HEAD
 .caution {
     font-size: 5px;
 }
+=======
+.required {
+    color: red;
+}
+>>>>>>> d8a8f6ac06760059cd6ad3c5cf83c9eba8c8ceb7
