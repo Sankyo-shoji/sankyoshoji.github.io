@@ -46,18 +46,12 @@ function subForm() {
 
     //単位について
     if($('input[name="unit"]:checked').val()== 0){
-        unit[0] = "個";
+        unit[0] = "個/枚";
     }
     else if($('input[name="unit"]:checked').val()== 1){
-        unit[0] = "箱";
+        unit[0] = "箱/式";
     }
     else if($('input[name="unit"]:checked').val()== 2){
-        unit[0] = "枚";
-    }
-    else if($('input[name="unit"]:checked').val()== 3){
-        unit[0] = "式";
-    }
-    else if($('input[name="unit"]:checked').val()== 4){
         unit[0] = "その他";
     }
 
@@ -66,10 +60,10 @@ function subForm() {
         date[0] = "次回訪問日（10日以内）";
     }
     else if($('input[name="deadline"]:checked').val()== 1){
-        date[0] = document.getElementById("deadline_text_0").value;
+        date[0] = document.getElementById("deadline_text_0").value + "までに";;
     }
     else if($('input[name="deadline"]:checked').val()== 2){
-        date[0] = document.getElementById("deadline_text_1").value + "までに";
+        date[0] = document.getElementById("deadline_text_1").value + "（直送）";
     }
     
     //画像について
@@ -99,18 +93,12 @@ function subForm() {
 
         // 単位について
         if(unit_buff[j] == 0){
-            unit[j] = "個";
+            unit[j] = "個/枚";
         }
         else if(unit_buff[j] == 1){
-            unit[j] = "箱";
+            unit[j] = "箱/式";
         }
         else if(unit_buff[j] == 2){
-            unit[j] = "枚";
-        }
-        else if(unit_buff[j] == 3){
-            unit[j] = "式";
-        }
-        else if(unit_buff[j] == 4){
             unit[j] = "その他";
         }
     
@@ -119,10 +107,10 @@ function subForm() {
             date[j] = "次回訪問日（10日以内）";
         }
         else if(date_buff[j] == 1){
-            date[j] = clone_element[j].querySelector("#deadline_text").value;
+            date[j] = clone_element[j].querySelector("#deadline_text").value + "までに";
         }
         else if(date_buff[j] == 2){
-            date[j] = clone_element[j].querySelector("#deadline_text").value + "までに";
+            date[j] = clone_element[j].querySelector("#deadline_text").value + "（直送）";
         }
 
         //画像について
