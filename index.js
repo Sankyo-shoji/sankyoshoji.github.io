@@ -10,7 +10,6 @@ $(function () {
 */
 
 function subForm() {
-    console.log("push submit");
     
     let now = new Date();
     let Year = now.getFullYear();
@@ -18,7 +17,6 @@ function subForm() {
     let Date1 = now.getDate();
     let Hour = now.getHours();
     let Min = now.getMinutes();
-    //let Sec = now.getSeconds();
     
     let msg
     let item_name = {};
@@ -60,14 +58,14 @@ function subForm() {
         date[0] = "次回訪問日（10日以内）";
     }
     else if($('input[name="deadline"]:checked').val()== 1){
-        date[0] = document.getElementById("deadline_text_0").value + "までに";;
+        date[0] = document.getElementById("deadline_text_until_0").value + "までに";;
     }
     else if($('input[name="deadline"]:checked').val()== 2){
-        date[0] = document.getElementById("deadline_text_1").value + "（直送）";
+        date[0] = document.getElementById("deadline_text_direct_0").value + "（直送）";
     }
     
     //画像について
-    if($('input[name="file"]:checked').val()== 0){
+    if(i > 1 || $('input[name="file"]:checked').val()== 0){
         file[0] = "なし";
     }
     else{
@@ -81,7 +79,6 @@ function subForm() {
         num_buff[j] =  clone_element[j].querySelector('input[name="item_number"]:checked').value;
         unit_buff[j] = clone_element[j].querySelector('input[name="unit"]:checked').value
         date_buff[j] = clone_element[j].querySelector('input[name="deadline"]:checked').value;
-        file_buff[j] = clone_element[j].querySelector('input[name="file"]:checked').value;
 
         // 数量について
         if(num_buff[j] == 0){
@@ -107,19 +104,14 @@ function subForm() {
             date[j] = "次回訪問日（10日以内）";
         }
         else if(date_buff[j] == 1){
-            date[j] = clone_element[j].querySelector("#deadline_text").value + "までに";
+            date[j] = clone_element[j].querySelector(`#deadline_text_until_${j}`).value + "までに";
         }
         else if(date_buff[j] == 2){
-            date[j] = clone_element[j].querySelector("#deadline_text").value + "（直送）";
+            date[j] = clone_element[j].querySelector(`#deadline_text_direct_${j}`).value + "（直送）";
         }
 
         //画像について
-        if(file_buff[j] == 0){
-            file[j] = "なし";
-        }
-        else if(file_buff[j] == 1){
-            file[j] = "あり";
-        }
+        file[j] = 'なし';
 
     }
 
@@ -129,11 +121,10 @@ function subForm() {
     }
 
     document.getElementById(`sub`).remove();
-    // document.getElementById(`add`).remove();
+    document.getElementById(`add`).remove();
     let doPostMessage = document.getElementById('dopost');
     doPostMessage.innerHTML = '送信中です';
     
-    console.log(date);
     for(let k=0; k<i; k++){
         msg = `【注文内容】\n注文日時：${Year}年${Month}月${Date1}日${Hour}時${Min}分\n 商品名：${item_name[k]}\n 個数：${num[k]}\n 単位：${unit[k]}\n 納期：${date[k]}\n 画像：${file[k]}\n 備考：${note[k]}`;
 
@@ -144,29 +135,13 @@ function subForm() {
  
 }
 
-let base64Texts = {};
-function previewFile(index) {
-    const files = document.querySelectorAll('input[type=file]');
-    const file = files[index].files[0];
-    const reader = new FileReader();
-    reader.addEventListener("load", function () {
-        // 画像ファイルを base64 文字列に変換します
-        base64Texts[index] = reader.result;
-        console.log(base64Texts);
-        console.log(files);
-        // let debug = document.getElementById('debug');
-        // debug.innerHTML = `${base64Texts[0]}`;
-    }, false);
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-}
-
 let i = 1;
 let clone_element = {};
 function addForm() {
     if(i >= 3) return;
+
+    // 商品が追加された時点で画像欄を消しておく
+    if(i == 1) document.getElementById(`picture`).remove();
 
     // 複製するHTML要素を取得
     var content_area = document.getElementById(`form_${i-1}`);
@@ -183,14 +158,12 @@ function addForm() {
     // 複製後にフォームをクリア
     clone_element[i].reset();
 
-    //clone_element[j].querySelector("#sub").remove();
     document.getElementById(`sub`).remove();
-    // document.getElementById(`add`).remove();
+    document.getElementById(`add`).remove();
+    document.getElementById(`dopost`).remove();
 
     // 商品 3 で追加の注文ボタンを消す
-    // if(i == 2) document.getElementById(`add`).remove();
-
-    //clone_element[i].querySelector("#num0").onclick = `date_flg0_${i}(this.checked);`
+    if(i == 2) document.getElementById(`add`).remove();
 
     i++;
 
@@ -201,79 +174,15 @@ function addForm() {
     content_area.after(new_element);
 
     // 商品の数によってidとnameを変更する
-    var new_deadline_text = document.querySelector(`#form_${i-1} div p span`);
-    // console.log(new_deadline_text);
-    new_deadline_text.setAttribute('id', `deadline_text_${i-1}`);
-    new_deadline_text.setAttribute('name', `deadline_text_${i-1}`);
-    new_deadline_text.innerHTML = ` / `
-
-    // 商品の数によって納期に関する関数の戻り値を変更する
-    var new_deadline = document.querySelector(`#form_${i-1} input[type='date'][name='deadline_text']`);
-    // console.log(new_deadline);
-    new_deadline.setAttribute('onchange', `date_flg2(${i-1});`);
-
-    // 商品の数によって入力画像に関する関数の戻り値を変更する
-    var new_image = document.querySelector(`#form_${i-1} input[type='file'][name='input_image']`);
-    console.log(new_image);
-    new_image.setAttribute('onchange', `previewFile(${i-1});`);
-}
-
-// カレンダーが変更されたら
-function date_flg2(index){
-    var date = document.querySelector(`#form_${index} input[type='date'][name='deadline_text']`);
-    console.log("change " + index);
-    console.log(date);
-    document.querySelector(`#deadline_text_${index}`).innerHTML = date.value;
+    var new_deadline_until_text = document.querySelector(`#form_${i-1} #deadline_text_until_${i-2}`);
+    new_deadline_until_text.setAttribute('id', `deadline_text_until_${i-1}`);
+    new_deadline_until_text.setAttribute('name', `deadline_text_until_${i-1}`);
+    var new_deadline_direct_text = document.querySelector(`#form_${i-1} #deadline_text_direct_${i-2}`);
+    new_deadline_direct_text.setAttribute('id', `deadline_text_direct_${i-1}`);
+    new_deadline_direct_text.setAttribute('name', `deadline_text_direct_${i-1}`);
 }
 
 // オブジェクトが空かどうか
 function isEmpty(obj){
     return !Object.keys(obj).length;
 }
-
-/*
-//clone_element[j].querySelector('input[name="num"]:checked').value
-
-//「数値入力」以外のラジオボタンが選択されているときは数値入力をdisableに
-function num_flg0(ischecked){
-    if(ischecked == true){
-        clone_element[i].querySelector("#input_num").disabled = true;
-        //document.getElementById(`input_num`).disabled = true;
-    }
-}
-
-function num_flg1(ischecked){
-    if(ischecked == true){
-        clone_element[i].querySelector("#input_num").disabled = true;
-    }
-}
-
-function num_flg2(ischecked){
-    if(ischecked == true){
-        clone_element[i].querySelector("#input_num").disabled = false;
-    } else {
-        clone_element[i].querySelector("#input_num").disabled = true;
-    }
-}
-
-//「日付入力」以外のラジオボタンが選択されているときは日付入力をdisableに
-function date_flg0(ischecked){
-    if(ischecked == true){
-        document.getElementById("input_date").disabled = true;
-    }
-}
-
-function date_flg1(ischecked){
-    if(ischecked == true){
-        document.getElementById("input_date").disabled = true;
-    }
-}
-
-function date_flg2(ischecked){
-    if(ischecked == true){
-        document.getElementById("input_date").disabled = false;
-    } else {
-        document.getElementById("input_date").disabled = true;
-    }
-}
-*/
