@@ -121,7 +121,7 @@ function subForm() {
     }
 
     document.getElementById(`sub`).remove();
-    document.getElementById(`add`).remove();
+    if(i < 3) document.getElementById(`add`).remove();
     let doPostMessage = document.getElementById('dopost');
     doPostMessage.innerHTML = '送信中です';
     
