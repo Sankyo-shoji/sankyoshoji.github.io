@@ -186,3 +186,11 @@ function addForm() {
 function isEmpty(obj){
     return !Object.keys(obj).length;
 }
+
+function showButtonHandler(){
+    if($('input[name="file"]:checked').val() == 1){
+        document.getElementById(`add`).style.display = "none";
+    }else{
+        document.getElementById(`add`).style.display = "";
+    }
+}
