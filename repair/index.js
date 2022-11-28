@@ -91,7 +91,6 @@ function subForm() {
     }
 
     document.getElementById(`sub`).remove();
-    if(i < 3)document.getElementById(`add`).remove();
     let doPostMessage = document.getElementById('dopost');
     doPostMessage.innerHTML = '送信中です';
     
@@ -150,12 +149,4 @@ function addForm() {
     new_element.className = "ttt";
 
     content_area.after(new_element);
-}
-
-function showButtonHandler(){
-    if($('input[name="machine_image"]:checked').val() == 1){
-        document.getElementById(`add`).style.display = "none";
-    }else{
-        document.getElementById(`add`).style.display = "";
-    }
 }
