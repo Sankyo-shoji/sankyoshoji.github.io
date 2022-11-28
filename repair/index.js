@@ -27,6 +27,7 @@ function subForm() {
     let sympromps_name = {};
     let sympromps_count = {};
     let machine_image = {};
+    let repair_name = {};
     let remarks = {};
     let sympromps_buff = {};
 
@@ -37,8 +38,11 @@ function subForm() {
     machine_model[0] = $('input[name="machine_model"]').val();
     // 製造番号について
     serial_number[0] = $('input[name="serial_number"]').val();
+    // 修理先名
+    repair_name[0] = document.getElementById("repair_name").value;
     // 備考について
     remarks[0] = document.getElementById("remarks").value;
+    
 
     // 修理内容について
     if($('input[name="symptoms"]:checked').val()== 0){
@@ -65,6 +69,8 @@ function subForm() {
         machine_model[j] = clone_element[j].querySelector("#machine_model").value;
         // 製造番号について
         serial_number[j] = clone_element[j].querySelector("#serial_number").value;
+        // 修理先名
+        repair_name[j] = clone_element[j].querySelector("#repair_name").value;
         // 備考について
         remarks[j] = clone_element[j].querySelector("#remarks").value;
 
@@ -102,7 +108,7 @@ function subForm() {
             sympromps_text = sympromps[k];
         }
 
-        msg = `【修理依頼内容】\n注文日時：${Year}年${Month}月${Date1}日${Hour}時${Min}分\n 機械名：${machine_name[k]}\n 機種：${machine_model[k]}\n 製造番号：${serial_number[k]}\n 修理内容・症状：${sympromps_text}\n 画像：${machine_image[k]}\n 備考：${remarks[k]}`;
+        msg = `【修理依頼内容】\n注文日時：${Year}年${Month}月${Date1}日${Hour}時${Min}分\n 機械名：${machine_name[k]}\n 機種：${machine_model[k]}\n 製造番号：${serial_number[k]}\n 修理内容・症状：${sympromps_text}\n 画像：${machine_image[k]}\n 修理先名:${repair_name[k]}\n 備考：${remarks[k]}`;
         
         console.log(msg);
         sendText(msg);
