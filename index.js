@@ -133,6 +133,7 @@ function subForm() {
 
         console.log(msg);
         sendText(msg);
+        console.log('送信完了');
         
     }
     return false;
