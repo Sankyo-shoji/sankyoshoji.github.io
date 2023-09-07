@@ -30,11 +30,13 @@ function subForm() {
     let file_buff = {};
     let order_name = {};
     let note = {};
+    let site_name = {};
 
 
     item_name[0] = $('input[name="item_name"]').val();
     note[0] = document.getElementById("note").value;
     order_name[0] = document.getElementById("order_name").value;
+    site_name[0] = document.getElementById("site_name").value;
 
     //個数について
     if($('input[name="item_number"]:checked').val()== 0){
@@ -46,13 +48,16 @@ function subForm() {
 
     //単位について
     if($('input[name="unit"]:checked').val()== 0){
-        unit[0] = "個/枚";
+        unit[0] = "個/枚/本";
     }
     else if($('input[name="unit"]:checked').val()== 1){
         unit[0] = "箱/式";
     }
     else if($('input[name="unit"]:checked').val()== 2){
         unit[0] = "その他";
+    }
+    else if($('input[name="unit"]:checked').val()== 3){
+        unit[0] = "メートル";
     }
 
     //納期について
@@ -82,6 +87,7 @@ function subForm() {
         unit_buff[j] = clone_element[j].querySelector('input[name="unit"]:checked').value
         date_buff[j] = clone_element[j].querySelector('input[name="deadline"]:checked').value;
         order_name[j] = clone_element[j].querySelector("#order_name").value;
+        site_name[j] = clone_element[j].querySelector("#site_name").value;
 
         // 数量について
         if(num_buff[j] == 0){
@@ -93,13 +99,16 @@ function subForm() {
 
         // 単位について
         if(unit_buff[j] == 0){
-            unit[j] = "個/枚";
+            unit[j] = "個/枚/本";
         }
         else if(unit_buff[j] == 1){
             unit[j] = "箱/式";
         }
         else if(unit_buff[j] == 2){
-            unit[j] = "その他";
+            unit[j] = clone_element[j].querySelector("#unit_name").value;
+        }
+        else if(unit_buff[j] == 3){
+            unit[j] = "m（メートル）";
         }
     
         //納期について
@@ -129,12 +138,11 @@ function subForm() {
     doPostMessage.innerHTML = '送信中です';
     
     for(let k=0; k<i; k++){
-        msg = `【注文内容】\n注文日時：${Year}年${Month}月${Date1}日${Hour}時${Min}分\n 商品名：${item_name[k]}\n 個数：${num[k]}\n 単位：${unit[k]}\n 納期：${date[k]}\n 画像：${file[k]}\n 納品先名：${order_name[k]}\n 備考：${note[k]}`;
+        msg = `【注文内容】\n注文日時：${Year}年${Month}月${Date1}日${Hour}時${Min}分\n 商品名：${item_name[k]}\n 個数：${num[k]}\n 単位：${unit[k]}\n 納期：${date[k]}\n 画像：${file[k]}\n 納品先名：${order_name[k]}\n 現場名：${site_name[k]}\n 備考：${note[k]}`;
 
         console.log(msg);
         sendText(msg);
         console.log('送信完了');
-        
     }
     return false;
  
@@ -211,9 +219,21 @@ function addForm() {
             }
         })
     }
+    else if($(`#form_${i-2}`).find(`input[name="unit"]:checked`).val() == 3){
+        $(`#form_${i-1}`).find(`input[name="unit"]`).each(function () {
+            if($(this).val() == 3){
+                $(this).prop('checked', true);
+            }
+        })
+    }else if($(`#form_${i-2}`).find(`input[name="unit"]:checked`).val() == 0){
+        $(`#form_${i-1}`).find(`input[name="unit"]`).each(function () {
+            if($(this).val() == 0){
+                $(this).prop('checked', true);
+            }
+        })
+    }
 
     // 納期をコピー
-    // 個数をコピー
     if($(`#form_${i-2}`).find('input[name="deadline"]:checked').val() == 1){
         var old_val = $(`#form_${i-2}`).find(`input[name="deadline_text_until_${i-2}"]`).val();
         $(`#form_${i-1}`).find(`input[name="deadline_text_until_${i-1}"]`).prop('value', old_val);
@@ -246,3 +266,18 @@ function showButtonHandler(){
         document.getElementById(`add`).style.display = "";
     }
 }
+
+// unit の変更を watch して、 その他 になった時にテキストボックスを表示する
+let unit_radio_btns = document.querySelectorAll(`input[type='radio'][name='unit']`);
+
+for (let target of unit_radio_btns) {
+	target.addEventListener(`change`, () => {
+        if (target.value == 2) {
+            document.getElementById(`unit_name`).style.display = "";
+        } else {
+            document.getElementById(`unit_name`).style.display = "none";
+        }
+	});
+}
+
+console.log("index.js loaded");
